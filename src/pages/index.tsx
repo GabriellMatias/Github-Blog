@@ -4,8 +4,22 @@ import { RiGroupLine, RiBuilding4Line } from 'react-icons/ri'
 import { BsBoxArrowUpRight } from 'react-icons/bs'
 import { Header } from '../components/Header'
 import { Cards } from '../components/Cards'
+import { GetServerSideProps } from 'next'
+import { api } from './api/api'
 
-export default function Home() {
+interface UserDataProps {
+  userFormattedData: {
+    avatar_url: string
+    followers: number
+    html_url: string
+    name: string
+    login: string
+    company: string
+    bio: string
+  }
+}
+
+export default function Home({ userFormattedData }: UserDataProps) {
   return (
     <>
       <div className="flex flex-col items-center ">
@@ -17,14 +31,14 @@ export default function Home() {
           <div className="bg-base-profile w-full h-[212px] rounded-md flex mt-[-4.4rem]">
             <img
               className="w-[148px] h-[148px] rounded my-8 ml-10"
-              src="https://github.com/GabriellMatias.png"
+              src={userFormattedData.avatar_url}
               alt="Profile picture"
             />
-            <div className="flex flex-col mx-8">
-              <div className="text-base-title flex justify-between items-center mt-10 ">
-                <h1 className="font-bold text-2xl">Gabriel Matias</h1>
+            <div className="flex flex-col justify-evenly mx-8 my-8 w-full ">
+              <div className="text-base-title flex justify-between items-center ">
+                <h1 className="font-bold text-2xl">{userFormattedData.name}</h1>
                 <a
-                  href=""
+                  href={userFormattedData.html_url}
                   className="text-blue font-bold text-xs flex gap-2 hover:underline"
                 >
                   GITHUB
@@ -32,22 +46,20 @@ export default function Home() {
                 </a>
               </div>
               <p className="text-base-text mt-2 mb-6">
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Alias
-                quia adipisci neque dicta in illo, nulla nihil ducimus enim? Sit
-                facere tenetur
+                {userFormattedData.bio}
               </p>
               <div className="flex gap-4 ">
                 <span className="flex gap-2 items-center text-base-subtitle">
                   <FaGithub className="text-base-label" />
-                  GabrielMatias
+                  {userFormattedData.login}
                 </span>
                 <span className="flex gap-2 items-center text-base-subtitle">
                   <RiGroupLine className="text-base-label" />
-                  AGU
+                  {userFormattedData.followers}
                 </span>
                 <span className="flex gap-2 items-center text-base-subtitle">
                   <RiBuilding4Line className="text-base-label" />
-                  Followers
+                  {userFormattedData.company}
                 </span>
               </div>
             </div>
@@ -83,4 +95,23 @@ export default function Home() {
       </footer>
     </>
   )
+}
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  const userUnformattedData = await api.get('/users/GabriellMatias')
+  const response = userUnformattedData.data
+  const userFormattedData = {
+    avatar_url: response.avatar_url,
+    followers: response.followers,
+    html_url: response.html_url,
+    name: response.name,
+    login: response.login,
+    company: response.company,
+    bio: response.bio,
+  }
+  return {
+    props: {
+      userFormattedData,
+    },
+  }
 }

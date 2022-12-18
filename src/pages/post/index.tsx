@@ -1,9 +1,14 @@
 import Head from 'next/head'
+import Link from 'next/link'
 import { BsBoxArrowUpRight, BsCalendar, BsChevronLeft } from 'react-icons/bs'
 import { FaComment, FaGithub } from 'react-icons/fa'
 import { Header } from '../../components/Header'
+import { usePostData } from '../../Hooks/usePostData'
 
 export default function Post() {
+  const { title } = usePostData()
+  console.log(title)
+
   return (
     <div className="flex flex-col items-center ">
       <Head>
@@ -13,13 +18,15 @@ export default function Post() {
       <div className="bg-base-profile max-w-[864px] w-full h-[168px] rounded-md flex mt-[-4.4rem]">
         <div className="flex flex-col mx-8 w-full">
           <div className="text-base-title flex justify-between items-center mt-10">
-            <a
-              href=""
-              className="text-blue font-bold text-xs flex gap-2 items-center hover:underline"
-            >
-              <BsChevronLeft />
-              BACK
-            </a>
+            <Link href="/" legacyBehavior>
+              <a
+                href=""
+                className="text-blue font-bold text-xs flex gap-2 items-center hover:underline"
+              >
+                <BsChevronLeft />
+                BACK
+              </a>
+            </Link>
             <a
               href=""
               className="text-blue font-bold text-xs flex gap-2 items-center hover:underline"

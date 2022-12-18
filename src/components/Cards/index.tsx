@@ -1,6 +1,11 @@
+import Link from 'next/link'
+
 export function Cards() {
   return (
-    <div className=" bg-base-post w-[416px] h-[260px] rounded-xl">
+    <Link
+      href="/post"
+      className=" bg-base-post w-[414px] h-[258px] rounded-xl hover:border-2 hover:border-base-label"
+    >
       <div className="flex justify-between m-8">
         <h1 className="font-bold text-xl text-base-title w-[283px] ">
           JavaSrcipt data types and data structure
@@ -14,6 +19,6 @@ export function Cards() {
           ea, itaque voluptates delectus alias
         </p>
       </div>
-    </div>
+    </Link>
   )
 }
