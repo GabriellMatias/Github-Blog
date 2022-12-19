@@ -6,8 +6,9 @@ import { Header } from '../components/Header'
 import { Cards } from '../components/Cards'
 import { GetServerSideProps } from 'next'
 import { api } from '../services/api'
+import { usePostData } from '../Hooks/usePostData'
 
-interface AplicationDataProps {
+interface UserDataProps {
   userFormattedData: {
     avatar_url: string
     followers: number
@@ -19,7 +20,9 @@ interface AplicationDataProps {
   }
 }
 
-export default function Home({ userFormattedData }: AplicationDataProps) {
+export default function Home({ userFormattedData }: UserDataProps) {
+  const { FormattedPostData } = usePostData()
+  console.log(FormattedPostData)
   return (
     <>
       <div className="flex flex-col items-center ">
@@ -78,12 +81,9 @@ export default function Home({ userFormattedData }: AplicationDataProps) {
             placeholder="Search Content"
           />
           <section className="grid grid-cols-2 w-full mt-12 gap-8">
-            <Cards />
-            <Cards />
-            <Cards />
-            <Cards />
-            <Cards />
-            <Cards />
+            {FormattedPostData.items.map((post) => {
+              return <Cards key={post.body} post={post} />
+            })}
           </section>
         </main>
       </div>
@@ -98,21 +98,28 @@ export default function Home({ userFormattedData }: AplicationDataProps) {
 }
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const userUnformattedData = await api.get('/users/GabriellMatias')
-  const UserResponse = userUnformattedData.data
-  const userFormattedData = {
-    avatar_url: UserResponse.avatar_url,
-    followers: UserResponse.followers,
-    html_url: UserResponse.html_url,
-    name: UserResponse.name,
-    login: UserResponse.login,
-    company: UserResponse.company,
-    bio: UserResponse.bio,
+  try {
+    const userUnformattedData = await api.get('/users/GabriellMatias')
+    const UserResponse = userUnformattedData.data
+    const userFormattedData = {
+      avatar_url: UserResponse.avatar_url,
+      followers: UserResponse.followers,
+      html_url: UserResponse.html_url,
+      name: UserResponse.name,
+      login: UserResponse.login,
+      company: UserResponse.company,
+      bio: UserResponse.bio,
+    }
+    return {
+      props: {
+        userFormattedData,
+      },
+    }
+  } catch (error) {
+    alert(error)
   }
 
   return {
-    props: {
-      userFormattedData,
-    },
+    props: {},
   }
 }
