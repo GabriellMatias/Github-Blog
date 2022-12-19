@@ -6,8 +6,7 @@ import { Header } from '../../components/Header'
 import { usePostData } from '../../Hooks/usePostData'
 
 export default function Post() {
-  const { title } = usePostData()
-  console.log(title)
+  const { FormattedPostData } = usePostData()
 
   return (
     <div className="flex flex-col items-center ">
@@ -36,7 +35,7 @@ export default function Post() {
             </a>
           </div>
           <h1 className="font-bold text-xl text-base-title mt-5 mb-2">
-            JavaSrcipt data types and data structure
+            {FormattedPostData.title}
           </h1>
           <div className="flex gap-4 ">
             <span className="flex gap-2 items-center text-base-subtitle">

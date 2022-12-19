@@ -5,12 +5,9 @@ import {
   useEffect,
   useState,
 } from 'react'
-import { api } from '../pages/api/api'
+import { api } from '../services/api'
 
-interface PostProviderProps {
-  children: ReactNode
-}
-interface PostDataProps {
+export interface PostDataProps {
   title: string
   body: string
   created_at: string
@@ -20,43 +17,50 @@ interface PostDataProps {
     login: string
   }
 }
-const PostContext = createContext<PostDataProps>({} as PostDataProps)
+interface PostContextProps {
+  FormattedPostData: PostDataProps
+  setFormattedPostData: (post: PostDataProps) => void
+}
+const PostContext = createContext<PostContextProps>({} as PostContextProps)
 
-export function PostProvider({ children }: PostProviderProps) {
+export function PostProvider(children: ReactNode) {
   const [FormattedPostData, setFormattedPostData] = useState<PostDataProps>(
     {} as PostDataProps,
   )
   async function loadPostData() {
-    const UnformattedPostData = await api.get<PostDataProps>('/search/issues', {
+    const PostUnformattedData = await api.get('/search/issues', {
       params: {
         q: 'user:GabriellMatias',
       },
     })
-    const response = UnformattedPostData.data
-    
-    setFormattedPostData({
-      title: response.title,
-      body: response.body,
-      created_at: response.created_at,
-      comments: response.comments,
-      html_url: response.html_url,
+    const PostResponse = PostUnformattedData.data.items
+    console.log(PostUnformattedData.data)
+
+    const PostFormattedData: PostDataProps = {
+      title: PostResponse.title,
+      body: PostResponse.body,
+      created_at: PostResponse.created_at,
+      comments: PostResponse.comments,
+      html_url: PostResponse.html_url,
       user: {
-        login: response.user.login,
+        login: PostResponse.user.login,
       },
-    })
+    }
+
+    setFormattedPostData(PostFormattedData)
   }
   useEffect(() => {
     loadPostData()
   }, [])
 
   return (
-    <PostContext.Provider value={FormattedPostData}>
+    <PostContext.Provider value={{ FormattedPostData, setFormattedPostData }}>
       {children}
     </PostContext.Provider>
   )
 }
 /* tipagem */
-export function usePostData(): PostDataProps {
+export function usePostData(): PostContextProps {
   const context = useContext(PostContext)
   return context
 }

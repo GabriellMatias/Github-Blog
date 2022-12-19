@@ -5,9 +5,9 @@ import { BsBoxArrowUpRight } from 'react-icons/bs'
 import { Header } from '../components/Header'
 import { Cards } from '../components/Cards'
 import { GetServerSideProps } from 'next'
-import { api } from './api/api'
+import { api } from '../services/api'
 
-interface UserDataProps {
+interface AplicationDataProps {
   userFormattedData: {
     avatar_url: string
     followers: number
@@ -19,7 +19,7 @@ interface UserDataProps {
   }
 }
 
-export default function Home({ userFormattedData }: UserDataProps) {
+export default function Home({ userFormattedData }: AplicationDataProps) {
   return (
     <>
       <div className="flex flex-col items-center ">
@@ -99,16 +99,17 @@ export default function Home({ userFormattedData }: UserDataProps) {
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const userUnformattedData = await api.get('/users/GabriellMatias')
-  const response = userUnformattedData.data
+  const UserResponse = userUnformattedData.data
   const userFormattedData = {
-    avatar_url: response.avatar_url,
-    followers: response.followers,
-    html_url: response.html_url,
-    name: response.name,
-    login: response.login,
-    company: response.company,
-    bio: response.bio,
+    avatar_url: UserResponse.avatar_url,
+    followers: UserResponse.followers,
+    html_url: UserResponse.html_url,
+    name: UserResponse.name,
+    login: UserResponse.login,
+    company: UserResponse.company,
+    bio: UserResponse.bio,
   }
+
   return {
     props: {
       userFormattedData,
