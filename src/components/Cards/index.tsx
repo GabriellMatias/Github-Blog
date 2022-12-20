@@ -6,13 +6,14 @@ interface CardProps {
     title: string
     body: string
     created_at: string
+    number: number
   }
 }
 
 export function Cards({ post }: CardProps) {
   return (
     <Link
-      href="/post"
+      href={`/posts/${post.number}`}
       className=" bg-base-post w-[414px] h-[258px] rounded-xl hover:border-2 hover:border-base-label"
     >
       <div className="flex justify-between m-8 gap-4">

@@ -3,6 +3,9 @@ module.exports = {
   content: ['./src/**/*.tsx'],
   theme: {
     extend: {
+      screens: {
+        mobile: { max: '684px' },
+      },
       backgroundImage: {
         headerImg: 'url(/headerIMG.png)',
       },

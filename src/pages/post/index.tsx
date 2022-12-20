@@ -7,7 +7,6 @@ import { usePostData } from '../../Hooks/usePostData'
 
 export default function Post() {
   const { FormattedPostData } = usePostData()
-  
 
   return (
     <div className="flex flex-col items-center ">

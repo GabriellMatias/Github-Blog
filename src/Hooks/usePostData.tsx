@@ -1,7 +1,6 @@
 import {
   createContext,
   ReactNode,
-  useCallback,
   useContext,
   useEffect,
   useState,
@@ -16,6 +15,7 @@ export interface PostDataProps {
       created_at: string
       comments: number
       html_url: string
+      number: number
       user: {
         login: string
       }
@@ -38,35 +38,27 @@ export function PostProvider({ children }: PostProviderProps) {
     {} as PostDataProps,
   )
 
-  const loadPostData = useCallback(async (query: string = '') => {
+  async function loadPostData(query: string = '') {
     try {
+      const userName = process.env.GITHUB_USERNAME
+      const repoName = process.env.GITHUB_REPONAME
+      console.log(userName, repoName)
+
       const response = await api.get('/search/issues', {
         params: {
-          /* `${query}%20repo:${process.env.GITHUB_USERNAME}/${process.env.GITHUB_REPONAME}` */
-          q: 'user:GabriellMatias',
+          /*  */
+          q: `${query}repo:GabrellMatias/challenger-03-GitHub-Blog`,
         },
       })
       setFormattedPostData(response.data)
     } catch (error) {
       console.log(error)
     }
-  }, [])
-  // async function loadPostData(query: string = '') {
-  //   // const PostFormattedData: PostDataProps = {
-  //   //   title: PostResponse.title,
-  //   //   body: PostResponse.body,
-  //   //   created_at: PostResponse.created_at,
-  //   //   comments: PostResponse.comments,
-  //   //   html_url: PostResponse.html_url,
-  //   //   user: {
-  //   //     login: PostResponse.user.login,
-  //   //   },
-  //   // }
-  // }
+  }
 
   useEffect(() => {
     loadPostData()
-  }, [loadPostData])
+  }, [])
 
   return (
     <PostContext.Provider value={{ FormattedPostData }}>

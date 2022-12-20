@@ -22,7 +22,7 @@ interface UserDataProps {
 
 export default function Home({ userFormattedData }: UserDataProps) {
   const { FormattedPostData } = usePostData()
-  console.log(FormattedPostData)
+
   return (
     <>
       <div className="flex flex-col items-center ">
@@ -30,15 +30,15 @@ export default function Home({ userFormattedData }: UserDataProps) {
           <title>Github Blog | Home</title>
         </Head>
         <Header />
-        <main className="max-w-[864px]">
-          <div className="bg-base-profile w-full h-[212px] rounded-md flex mt-[-4.4rem]">
+        <main className="max-w-[864px] mobile:max-w-[500px]">
+          <div className="bg-base-profile w-full h-[212px] rounded-md flex mt-[-4.4rem] mobile:flex-col mobile:h-[412px]">
             <img
               className="w-[148px] h-[148px] rounded my-8 ml-10"
               src={userFormattedData.avatar_url}
               alt="Profile picture"
             />
-            <div className="flex flex-col justify-evenly mx-8 my-8 w-full ">
-              <div className="text-base-title flex justify-between items-center ">
+            <div className="flex flex-col justify-evenly mx-8 my-8 w-full mobile:my-2">
+              <div className="text-base-title flex justify-between items-center mobile:justify-start mobile:gap-4">
                 <h1 className="font-bold text-2xl">{userFormattedData.name}</h1>
                 <a
                   href={userFormattedData.html_url}
@@ -51,7 +51,7 @@ export default function Home({ userFormattedData }: UserDataProps) {
               <p className="text-base-text mt-2 mb-6">
                 {userFormattedData.bio}
               </p>
-              <div className="flex gap-4 ">
+              <div className="flex gap-4 mobile:flex-col mobile:gap-1">
                 <span className="flex gap-2 items-center text-base-subtitle">
                   <FaGithub className="text-base-label" />
                   {userFormattedData.login}
@@ -81,7 +81,7 @@ export default function Home({ userFormattedData }: UserDataProps) {
             placeholder="Search Content"
           />
           <section className="grid grid-cols-2 w-full mt-12 gap-8">
-            {FormattedPostData.items.map((post) => {
+            {FormattedPostData.items?.map((post) => {
               return <Cards key={post.body} post={post} />
             })}
           </section>
@@ -116,7 +116,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
       },
     }
   } catch (error) {
-    alert(error)
+    console.log(error)
   }
 
   return {
