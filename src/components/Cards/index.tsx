@@ -6,15 +6,15 @@ interface CardProps {
     title: string
     body: string
     created_at: string
-    number: number
+    number: string
   }
 }
 
 export function Cards({ post }: CardProps) {
   return (
     <Link
-      href={`/posts/${post.number}`}
-      className=" bg-base-post w-[414px] h-[258px] rounded-xl hover:border-2 hover:border-base-label"
+      href={`/post/${post.number}`}
+      className=" bg-base-post w-[414px] h-[258px] rounded-xl hover:border-2 hover:border-base-label mobile:w-[320px] mobile:h-full"
     >
       <div className="flex justify-between m-8 gap-4">
         <h1 className="font-bold text-xl text-base-title w-[283px] ">

@@ -4,9 +4,20 @@ import { BsBoxArrowUpRight, BsCalendar, BsChevronLeft } from 'react-icons/bs'
 import { FaComment, FaGithub } from 'react-icons/fa'
 import { Header } from '../../components/Header'
 import { usePostData } from '../../Hooks/usePostData'
+import { useRouter } from 'next/router'
 
 export default function Post() {
   const { FormattedPostData } = usePostData()
+  const { query } = useRouter()
+
+  const currentPost = FormattedPostData.items?.find((post) => {
+    console.log(post.number)
+    console.log(query.id)
+
+    return query.id === post.number
+  })
+  console.log(currentPost)
+  /* retorna UNDEFINED */
 
   return (
     <div className="flex flex-col items-center ">

@@ -7,6 +7,7 @@ import { Cards } from '../components/Cards'
 import { GetServerSideProps } from 'next'
 import { api } from '../services/api'
 import { usePostData } from '../Hooks/usePostData'
+import { SearchInputForm } from '../components/SearchForm/SearchInput'
 
 interface UserDataProps {
   userFormattedData: {
@@ -68,19 +69,9 @@ export default function Home({ userFormattedData }: UserDataProps) {
             </div>
           </div>
 
-          <div className="w-full mt-[72px] mb-3 flex items-center justify-between">
-            <h1 className="text-base-subtitle text-lg font-bold ">
-              Publications
-            </h1>
-            <span className="text-base-span text-sm">6 publications</span>
-          </div>
-          {/* olhar borda */}
-          <input
-            type="text"
-            className="px-3 py-4 w-full bg-base-input rounded border border-base-border text-base-subtitle active:border-blue"
-            placeholder="Search Content"
-          />
-          <section className="grid grid-cols-2 w-full mt-12 gap-8">
+          <SearchInputForm />
+
+          <section className="grid grid-cols-2 w-full mt-12 gap-8 mobile:grid-cols-1 mobile:ml-3">
             {FormattedPostData.items?.map((post) => {
               return <Cards key={post.body} post={post} />
             })}

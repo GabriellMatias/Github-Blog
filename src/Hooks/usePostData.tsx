@@ -8,6 +8,7 @@ import {
 import { api } from '../services/api'
 
 export interface PostDataProps {
+  total_count: number
   items: [
     {
       title: string
@@ -15,7 +16,7 @@ export interface PostDataProps {
       created_at: string
       comments: number
       html_url: string
-      number: number
+      number: string
       user: {
         login: string
       }
@@ -25,6 +26,7 @@ export interface PostDataProps {
 
 interface PostContextProps {
   FormattedPostData: PostDataProps
+  loadPostData: (query?: string) => Promise<void>
 }
 
 interface PostProviderProps {
@@ -48,7 +50,7 @@ export function PostProvider({ children }: PostProviderProps) {
       const response = await api.get('/search/issues', {
         params: {
           /* GabriellMatias/challenger-03-GitHub-Blog */
-          q: `${query}%20repo:GabriellMatias/challenger-03-GitHub-Blog`,
+          q: `${query}repo:GabriellMatias/challenger-03-GitHub-Blog`,
         },
       })
       setFormattedPostData(response.data)
@@ -59,11 +61,10 @@ export function PostProvider({ children }: PostProviderProps) {
 
   useEffect(() => {
     loadPostData()
-    console.log(FormattedPostData)
   }, [])
 
   return (
-    <PostContext.Provider value={{ FormattedPostData }}>
+    <PostContext.Provider value={{ FormattedPostData, loadPostData }}>
       {children}
     </PostContext.Provider>
   )
