@@ -40,14 +40,15 @@ export function PostProvider({ children }: PostProviderProps) {
 
   async function loadPostData(query: string = '') {
     try {
+      /* sem uso, retornando undefined */
       const userName = process.env.GITHUB_USERNAME
       const repoName = process.env.GITHUB_REPONAME
       console.log(userName, repoName)
 
       const response = await api.get('/search/issues', {
         params: {
-          /*  */
-          q: `${query}repo:GabrellMatias/challenger-03-GitHub-Blog`,
+          /* GabriellMatias/challenger-03-GitHub-Blog */
+          q: `${query}%20repo:GabriellMatias/challenger-03-GitHub-Blog`,
         },
       })
       setFormattedPostData(response.data)
@@ -58,6 +59,7 @@ export function PostProvider({ children }: PostProviderProps) {
 
   useEffect(() => {
     loadPostData()
+    console.log(FormattedPostData)
   }, [])
 
   return (
