@@ -5,65 +5,75 @@ import { FaComment, FaGithub } from 'react-icons/fa'
 import { Header } from '../../components/Header'
 import { usePostData } from '../../Hooks/usePostData'
 import { useRouter } from 'next/router'
+import { formatDate } from '../../utils/formatDate'
+import { toast } from 'react-toastify'
+import { Footer } from '../../components/Footer'
+import ReactMarkdown from 'react-markdown'
 
 export default function Post() {
   const { FormattedPostData } = usePostData()
   const { query } = useRouter()
 
   const currentPost = FormattedPostData.items?.find((post) => {
-    console.log(post.number)
-    console.log(query.id)
-
-    return query.id === post.number
+    return query.id === String(post.number)
   })
-  console.log(currentPost)
-  /* retorna UNDEFINED */
+  if (!currentPost) {
+    toast.error('Post Not Found!')
+    return
+  }
 
   return (
-    <div className="flex flex-col items-center ">
-      <Head>
-        <title>Github Blog | Post</title>
-      </Head>
-      <Header />
-      <div className="bg-base-profile max-w-[864px] w-full h-[168px] rounded-md flex mt-[-4.4rem]">
-        <div className="flex flex-col mx-8 w-full">
-          <div className="text-base-title flex justify-between items-center mt-10">
-            <Link href="/" legacyBehavior>
+    <>
+      <div className="flex flex-col items-center  ">
+        <Head>
+          <title>Github Blog | Post</title>
+        </Head>
+        <Header />
+        <div className="bg-base-profile max-w-[864px] w-full h-[168px] rounded-md flex mt-[-4.4rem] mobile:max-w-[400px] mobile:h-[200px]">
+          <div className="flex flex-col mx-8 w-full">
+            <div className="text-base-title flex justify-between items-center mt-10">
+              <Link href="/" legacyBehavior>
+                <a
+                  href=""
+                  className="text-blue font-bold text-xs flex gap-2 items-center hover:underline"
+                >
+                  <BsChevronLeft />
+                  BACK
+                </a>
+              </Link>
               <a
-                href=""
+                href={currentPost.html_url}
                 className="text-blue font-bold text-xs flex gap-2 items-center hover:underline"
               >
-                <BsChevronLeft />
-                BACK
+                GITHUB
+                <BsBoxArrowUpRight />
               </a>
-            </Link>
-            <a
-              href=""
-              className="text-blue font-bold text-xs flex gap-2 items-center hover:underline"
-            >
-              GITHUB
-              <BsBoxArrowUpRight />
-            </a>
-          </div>
-          <h1 className="font-bold text-xl text-base-title mt-5 mb-2">
-            TITULO
-          </h1>
-          <div className="flex gap-4 ">
-            <span className="flex gap-2 items-center text-base-subtitle">
-              <FaGithub className="text-base-label" />
-              GabrielMatias
-            </span>
-            <span className="flex gap-2 items-center text-base-subtitle">
-              <BsCalendar className="text-base-label" />
-              Ha 1 dia
-            </span>
-            <span className="flex gap-2 items-center text-base-subtitle">
-              <FaComment className="text-base-label" />
-              Comentarios
-            </span>
+            </div>
+            <h1 className="font-bold text-xl text-base-title mt-5 mb-2">
+              {currentPost.title}
+            </h1>
+            <div className="flex gap-4 ">
+              <span className="flex gap-2 items-center text-base-subtitle">
+                <FaGithub className="text-base-label" />
+                {currentPost.user.login}
+              </span>
+              <span className="flex gap-2 items-center text-base-subtitle">
+                <BsCalendar className="text-base-label" />
+                {formatDate(currentPost.created_at)}
+              </span>
+              <span className="flex gap-2 items-center text-base-subtitle">
+                <FaComment className="text-base-label" />
+                {currentPost.comments}
+              </span>
+            </div>
           </div>
         </div>
+
+        <article className="max-w-[864px] w-full my-8 px-6 text-base-text">
+          <ReactMarkdown>{currentPost.body}</ReactMarkdown>
+        </article>
       </div>
-    </div>
+      <Footer />
+    </>
   )
 }

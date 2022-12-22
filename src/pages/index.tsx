@@ -8,6 +8,7 @@ import { GetServerSideProps } from 'next'
 import { api } from '../services/api'
 import { usePostData } from '../Hooks/usePostData'
 import { SearchInputForm } from '../components/SearchForm/SearchInput'
+import { Footer } from '../components/Footer'
 
 interface UserDataProps {
   userFormattedData: {
@@ -78,12 +79,7 @@ export default function Home({ userFormattedData }: UserDataProps) {
           </section>
         </main>
       </div>
-      <div className="mt-20 bg-base-span w-full h-[1px]" />
-      <footer className="m-5 flex items-center justify-end ">
-        <span className="text-sm text-base-span ">
-          Developer By GabriellMatias 👻
-        </span>
-      </footer>
+      <Footer />
     </>
   )
 }
