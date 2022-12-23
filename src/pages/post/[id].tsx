@@ -1,13 +1,17 @@
 import Head from 'next/head'
 import Link from 'next/link'
+
 import { BsBoxArrowUpRight, BsCalendar, BsChevronLeft } from 'react-icons/bs'
 import { FaComment, FaGithub } from 'react-icons/fa'
+
+import { Footer } from '../../components/Footer'
 import { Header } from '../../components/Header'
 import { usePostData } from '../../Hooks/usePostData'
-import { useRouter } from 'next/router'
+
 import { formatDate } from '../../utils/formatDate'
 import { toast } from 'react-toastify'
-import { Footer } from '../../components/Footer'
+import { useRouter } from 'next/router'
+
 import ReactMarkdown from 'react-markdown'
 
 export default function Post() {
@@ -21,6 +25,8 @@ export default function Post() {
     toast.error('Post Not Found!')
     return
   }
+  console.log(typeof currentPost.body)
+  /* STRING */
 
   return (
     <>
@@ -71,6 +77,7 @@ export default function Post() {
 
         <article className="max-w-[864px] w-full my-8 px-6 text-base-text">
           <ReactMarkdown>{currentPost.body}</ReactMarkdown>
+          {/* ERRO DE MARKDOWN */}
         </article>
       </div>
       <Footer />
