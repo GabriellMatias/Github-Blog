@@ -49,9 +49,9 @@ An simple application to test my skils in API rest. This project consist intake 
 ## :iphone: ScreenShots [Mobile]
 <h1 aling="center">
   
-  <img style="margin-top:100px; margin-left:200px; " src="https://user-images.githubusercontent.com/80908772/210159025-dc295e0b-6093-4afe-87db-8bb3820ad7e7.png"/>
+  <img style="margin-top:100px; margin-left:220px; " src="https://user-images.githubusercontent.com/80908772/210159025-dc295e0b-6093-4afe-87db-8bb3820ad7e7.png"/>
   <hr/>
-  <img style="margin-top:10px; margin-left:200px;" src="https://user-images.githubusercontent.com/80908772/210159023-5ddf72aa-2017-4223-8d38-7669228735dc.png"/>
+  <img style="margin-top:10px; margin-left:220px;" src="https://user-images.githubusercontent.com/80908772/210159023-5ddf72aa-2017-4223-8d38-7669228735dc.png"/>
   <hr/>
 </h1>
 <br/>
